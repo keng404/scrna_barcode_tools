@@ -1,0 +1,11 @@
+FROM r-base:4.4.0
+RUN apt-get update -y && \
+    apt-get install -y curl libxml2-dev libssl-dev libcurl4-openssl-dev python3-pip
+ENV SCRIPT_DIR /scripts
+COPY requirements.txt ${SCRIPT_DIR}/
+RUN cd ${SCRIPT_DIR} && \
+    python3 -m venv .venv && \
+    . .venv/bin/activate && \
+    pip3 install -r ${SCRIPT_DIR}/requirements.txt
+COPY *.py /scripts/
+COPY pipseq_barcode_sequence.txt /scripts/    
