@@ -307,7 +307,7 @@ def main():
             for record in fastx:
                 num_records += 1
                 if num_records % 10000 == 0 and num_records > 0:
-                    logging_statement(f"Processed {num_records} reads in {read_names_file}")
+                    logging_statement(f"Processed {num_records} reads in {fastq}")
 
                 sequence_split = [x for x in str(record.sequence)]
                 extracted_barcode = phased_check(sequence_split,scrna_barcode_str,whitelist_lookup)
@@ -325,11 +325,10 @@ def main():
                 ### best_tiered_seqs is array of sequences for each barcode block
                 tiered_seqs  = extracted_barcode['best_tiered_seqs']
                             
-                output_line_str = f"{read_name},{barcode_str},{best_barcode},{block1_dist},{tiered_seqs[0]},{block2_dist},{tiered_seqs[1]},{block3_dist},{tiered_seqs[2]},{block4_dist},{tiered_seqs[3]},{total_dist}" 
+                output_line_str = f"{record.name},{barcode_str},{best_barcode},{block1_dist},{tiered_seqs[0]},{block2_dist},{tiered_seqs[1]},{block3_dist},{tiered_seqs[2]},{block4_dist},{tiered_seqs[3]},{total_dist}" 
                 with open(output_file,"a+") as outfile:
                     outfile.write(output_line_str + "\n")
                 #print(f"{output_line_str}")
-                break
 
 if __name__ == "__main__":
     main()    
